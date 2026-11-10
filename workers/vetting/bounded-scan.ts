@@ -126,6 +126,9 @@ const AGENT_INSTRUCTIONS = new Set([
   "warp.md",
   "claude.local.md",
   "llms.txt",
+  // Roo Code reads a root `.roorules` file; Qwen Code reads `QWEN.md`.
+  ".roorules",
+  "qwen.md",
 ]);
 /**
  * Package-manager configuration read on every install or run. Each file can
@@ -279,6 +282,14 @@ export function surfacesOf(path: string): ScanSurface[] {
     lower.startsWith(".junie/") ||
     lower.startsWith(".idx/") ||
     lower.startsWith(".windsurf/") ||
+    // Rule and steering folders that agents load on their own: Cline reads
+    // every file in `.clinerules/`, Roo Code reads `.roo/rules*/`, Kiro
+    // reads `.kiro/steering/` and runs `.kiro/hooks/`, and Amazon Q
+    // Developer reads `.amazonq/rules/`.
+    lower.startsWith(".clinerules/") ||
+    lower.startsWith(".roo/") ||
+    lower.startsWith(".kiro/") ||
+    lower.startsWith(".amazonq/") ||
     lower.includes("/.cursor/rules/")
   )
     surfaces.add("agentInstructions");
